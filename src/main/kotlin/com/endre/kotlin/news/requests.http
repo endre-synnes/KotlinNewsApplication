@@ -1,0 +1,15 @@
+GET http://localhost:8080/articles/api/articles
+Accept: application/json
+
+###
+
+POST http://localhost:8080/articles/api/articles
+Content-Type: application/json
+
+{
+  "authorId" : "1001",
+  "text" : "Test article number one",
+  "country" : "Norway"
+}
+
+###

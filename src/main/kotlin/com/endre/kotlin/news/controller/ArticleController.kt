@@ -1,11 +1,14 @@
 package com.endre.kotlin.news.controller
 
+import com.endre.kotlin.news.entity.ArticleDto
 import com.endre.kotlin.news.service.ArticleService
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 
 /**
  * Created by Endre on 02.09.2018.
@@ -31,4 +34,22 @@ class ArticleController {
     private lateinit var articleService: ArticleService
 
 
+    @ApiOperation("Get all articles")
+    @GetMapping
+    fun get(@ApiParam("The country name")
+            @RequestParam("country", required = false)
+            country : String?,
+
+            @ApiParam("The id of the author who wrote the article")
+            @RequestParam("authorId", required = false)
+            authorId: String?): ResponseEntity<List<ArticleDto>> {
+        return articleService.find(country, authorId)
+    }
+
+
+    @ApiOperation("Create new Article")
+    @PostMapping
+    fun post(@RequestBody articleDto: ArticleDto): ResponseEntity<Long> {
+        return articleService.createArticle(articleDto)
+    }
 }

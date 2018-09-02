@@ -1,5 +1,6 @@
 package com.endre.kotlin.news.entity
 
+
 import com.endre.kotlin.news.util.Country
 import java.time.ZonedDateTime
 import javax.persistence.Entity
@@ -31,4 +32,11 @@ class Article(
 
         @get:Id @get:GeneratedValue
         var id: Long? = null
+
+        /*
+            Note how we need to explicitly state that id can be null (eg when entity
+            is not in sync with database).
+            The "= null" is used to provide a default value if caller does not
+            provide one.
+         */
 )
