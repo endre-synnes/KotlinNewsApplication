@@ -1,0 +1,14 @@
+resources:
+- name: git-repo
+  type: git
+  source:
+    uri: https://github.com/synend16/KotlinNewsApplication
+    branch: master
+
+jobs:
+- name: job-build-and-verify
+  plan:
+  - get: git-repo
+    trigger: true
+  - task: build-and-verify
+    file: git-repo/ci/mvn-build.yml
