@@ -11,6 +11,7 @@ class NewsApplicationTests {
 
     @Test
     fun contextLoads() {
+
     }
 
 }
