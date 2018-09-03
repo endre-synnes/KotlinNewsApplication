@@ -30,7 +30,6 @@ class ArticleConverter {
                     article.text,
                     article.country,
                     article.creationTime)
-                    .apply { id = article.id?.toString() }
         }
 
         fun convertToDto(articles: Iterable<Article>): List<ArticleDto> {

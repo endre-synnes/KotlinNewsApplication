@@ -28,7 +28,7 @@ data class ArticleDto(
         var creationTime: ZonedDateTime? = null
 ) {
 
-        @ApiModelProperty("Deprecated. Use newsId instead")
-        @Deprecated
-        var id: String? = null
+//        @ApiModelProperty("Deprecated. Use newsId instead")
+//        @Deprecated
+//        var id: String? = null
 }
