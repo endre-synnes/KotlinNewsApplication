@@ -12,5 +12,11 @@ interface ArticleService{
 
     fun createArticle(article : ArticleDto) : ResponseEntity<Long>
 
-    fun find(country: String?, authorId: String?): ResponseEntity<List<ArticleDto>>
+    fun findBy(country: String?, authorId: String?): ResponseEntity<List<ArticleDto>>
+
+    fun find(pathId: String?): ResponseEntity<ArticleDto>
+
+    fun delete(pathId: String?): ResponseEntity<Any>
+
+
 }

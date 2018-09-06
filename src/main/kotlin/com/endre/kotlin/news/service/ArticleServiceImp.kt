@@ -2,6 +2,7 @@ package com.endre.kotlin.news.service
 
 import com.endre.kotlin.news.entity.ArticleDto
 import com.endre.kotlin.news.repository.ArticleRepository
+import com.endre.kotlin.news.util.ArticleConverter
 import com.endre.kotlin.news.util.ArticleConverter.Companion.convertFromDto
 import com.endre.kotlin.news.util.ArticleConverter.Companion.convertToDto
 import com.google.common.base.Throwables
@@ -44,7 +45,7 @@ class ArticleServiceImp : ArticleService{
         return ResponseEntity(id, HttpStatus.CREATED)
     }
 
-    override fun find(country: String?, authorId: String?): ResponseEntity<List<ArticleDto>> {
+    override fun findBy(country: String?, authorId: String?): ResponseEntity<List<ArticleDto>> {
 
         val list = if (country.isNullOrBlank() && authorId.isNullOrBlank()) {
             articleRepository.findAll()
@@ -59,6 +60,34 @@ class ArticleServiceImp : ArticleService{
         return ResponseEntity(convertToDto(list), HttpStatus.OK)
     }
 
+    override fun find(pathId: String?): ResponseEntity<ArticleDto> {
+        val id: Long
 
+        try {
+            id = pathId!!.toLong()
+        } catch (e: Exception) {
+            return ResponseEntity.status(404).build()
+        }
 
+        val dto = articleRepository.findById(id).orElse(null) ?: return ResponseEntity.status(404).build()
+
+        return ResponseEntity.ok(ArticleConverter.convertToDto(dto))
+    }
+
+    override fun delete(pathId: String?): ResponseEntity<Any> {
+        val id: Long
+
+        try {
+            id = pathId!!.toLong()
+        } catch (e: Exception) {
+            return ResponseEntity.status(400).build()
+        }
+
+        if (!articleRepository.existsById(id)) {
+            return ResponseEntity.status(404).build()
+        }
+
+        articleRepository.deleteById(id)
+        return ResponseEntity.status(204).build()
+    }
 }

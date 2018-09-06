@@ -36,14 +36,14 @@ class ArticleController {
 
     @ApiOperation("Get all articles")
     @GetMapping
-    fun get(@ApiParam("The country name")
+    fun getAll(@ApiParam("The country name")
             @RequestParam("country", required = false)
             country : String?,
 
             @ApiParam("The id of the author who wrote the article")
             @RequestParam("authorId", required = false)
             authorId: String?): ResponseEntity<List<ArticleDto>> {
-        return articleService.find(country, authorId)
+        return articleService.findBy(country, authorId)
     }
 
 
@@ -51,5 +51,23 @@ class ArticleController {
     @PostMapping
     fun post(@RequestBody articleDto: ArticleDto): ResponseEntity<Long> {
         return articleService.createArticle(articleDto)
+    }
+
+
+    @ApiOperation("Get single article by id")
+    @GetMapping(path = ["/{id}"])
+    fun get(@ApiParam("The id of the article")
+            @PathVariable("id")
+            pathId: String?) : ResponseEntity<ArticleDto> {
+        return articleService.find(pathId)
+    }
+
+
+    @ApiOperation("Delete an article by id")
+    @DeleteMapping(path = ["/{id}"])
+    fun delete(@ApiParam("id")
+                @PathVariable("id")
+                pathId: String?) : ResponseEntity<Any> {
+        return articleService.delete(pathId)
     }
 }
