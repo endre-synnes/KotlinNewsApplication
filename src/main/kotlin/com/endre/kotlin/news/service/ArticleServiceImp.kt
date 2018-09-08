@@ -127,8 +127,12 @@ class ArticleServiceImp : ArticleService{
 
         if (jsonNode.has("country")){
             val country = jsonNode.get("country")
+            if (country.isTextual){
+                article.country = country.asText()
+            } else {
+                return ResponseEntity.status(400).build()
+            }
         }
-        //TODO Ferdigstille her
 
         articleRepository.save(article).id
 

@@ -70,7 +70,7 @@ class ArticleController {
             @ApiParam("The partial patch")
             @RequestBody
             jsonPatch: String) : ResponseEntity<Void> {
-
+        return articleService.patch(pathId, jsonPatch)
     }
 
     @ApiOperation("Delete an article by id")
