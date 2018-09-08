@@ -62,6 +62,16 @@ class ArticleController {
         return articleService.find(pathId)
     }
 
+    @ApiOperation("Update part of article")
+    @PatchMapping(path = ["/{id}"])
+    fun patch(@ApiParam("The id of the article")
+            @PathVariable("id")
+            pathId: String?,
+            @ApiParam("The partial patch")
+            @RequestBody
+            jsonPatch: String) : ResponseEntity<Void> {
+
+    }
 
     @ApiOperation("Delete an article by id")
     @DeleteMapping(path = ["/{id}"])

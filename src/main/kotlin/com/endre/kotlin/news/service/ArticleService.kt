@@ -16,7 +16,7 @@ interface ArticleService{
 
     fun find(pathId: String?): ResponseEntity<ArticleDto>
 
+    fun patch(pathId: String?, jsonBody: String): ResponseEntity<Void>
+
     fun delete(pathId: String?): ResponseEntity<Any>
-
-
 }

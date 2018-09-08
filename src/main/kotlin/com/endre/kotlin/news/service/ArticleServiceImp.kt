@@ -5,6 +5,8 @@ import com.endre.kotlin.news.repository.ArticleRepository
 import com.endre.kotlin.news.util.ArticleConverter
 import com.endre.kotlin.news.util.ArticleConverter.Companion.convertFromDto
 import com.endre.kotlin.news.util.ArticleConverter.Companion.convertToDto
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.base.Throwables
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -72,6 +74,65 @@ class ArticleServiceImp : ArticleService{
         val dto = articleRepository.findById(id).orElse(null) ?: return ResponseEntity.status(404).build()
 
         return ResponseEntity.ok(ArticleConverter.convertToDto(dto))
+    }
+
+    override fun patch(pathId: String?, jsonBody: String): ResponseEntity<Void> {
+        val id: Long
+
+        try {
+            id = pathId!!.toLong()
+        } catch (e: Exception) {
+            return ResponseEntity.status(400).build()
+        }
+
+        if (!articleRepository.existsById(id)) {
+            return ResponseEntity.status(404).build()
+        }
+
+        val jackson = ObjectMapper()
+
+        val jsonNode: JsonNode
+
+        try {
+            jsonNode = jackson.readValue(jsonBody, JsonNode::class.java)
+        } catch (e: Exception) {
+            //Invalid JSON data as input
+            return ResponseEntity.status(400).build()
+        }
+
+        if (jsonNode.has("articleId")) {
+            //shouldn't be allowed to modify the counter id
+            return ResponseEntity.status(409).build()
+        }
+
+        var article = articleRepository.findById(id).get()
+
+        if (jsonNode.has("authorId")){
+            val authorId = jsonNode.get("authorId")
+            if (authorId.isTextual){
+                article.authorId = authorId.asText()
+            } else {
+                return ResponseEntity.status(400).build()
+            }
+        }
+
+        if (jsonNode.has("text")){
+            val text = jsonNode.get("text")
+            if (text.isTextual){
+                article.text = text.asText()
+            } else {
+                return ResponseEntity.status(400).build()
+            }
+        }
+
+        if (jsonNode.has("country")){
+            val country = jsonNode.get("country")
+        }
+        //TODO Ferdigstille her
+
+        articleRepository.save(article).id
+
+        return ResponseEntity.ok().build()
     }
 
     override fun delete(pathId: String?): ResponseEntity<Any> {
