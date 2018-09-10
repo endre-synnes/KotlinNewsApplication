@@ -16,7 +16,7 @@ class ArticleControllerTest : NewsTestBase() {
                 .auth().preemptive().basic("user", "user").`when`()
                 .get()
                 .then()
-                .statusCode(200)
+                .statusCode(400)
                 .body("size()", equalTo(0))
     }
 
