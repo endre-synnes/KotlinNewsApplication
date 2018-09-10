@@ -25,7 +25,7 @@ class ArticleControllerTest : NewsTestBase() {
         val dto = ArticleDto(null, authorId = "author", text = "Some text", country = "Norway", creationTime = null)
 
         val id = given().contentType(BASE_JSON)
-                .auth().preemptive().basic("user", "user").`when`()
+                .auth().preemptive().basic("userrrrrrrrr", "user").`when`()
                 .body(dto)
                 .post()
                 .then()
