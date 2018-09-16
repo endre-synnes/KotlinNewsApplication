@@ -76,6 +76,34 @@ class ArticleServiceImp : ArticleService{
         return ResponseEntity.ok(ArticleConverter.convertToDto(dto))
     }
 
+    override fun update(pathId: String?, dto: ArticleDto): ResponseEntity<Void> {
+        val id: Long
+
+        try {
+            id = pathId!!.toLong()
+        } catch (e: Exception) {
+            return ResponseEntity.status(400).build()
+        }
+
+        if (!articleRepository.existsById(id)) {
+            return ResponseEntity.status(404).build()
+        }
+
+        if (dto.text == null || dto.authorId == null || dto.country == null) {
+            return ResponseEntity.status(400).build()
+        }
+
+        var article = articleRepository.findById(id).get()
+
+        article.country = dto.country!!
+        article.authorId = dto.authorId!!
+        article.text = dto.text!!
+
+        articleRepository.save(article).id
+
+        return ResponseEntity.status(204).build()
+    }
+
     override fun patch(pathId: String?, jsonBody: String): ResponseEntity<Void> {
         val id: Long
 
@@ -136,7 +164,7 @@ class ArticleServiceImp : ArticleService{
 
         articleRepository.save(article).id
 
-        return ResponseEntity.ok().build()
+        return ResponseEntity.status(204).build()
     }
 
     override fun delete(pathId: String?): ResponseEntity<Any> {

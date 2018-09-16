@@ -62,6 +62,17 @@ class ArticleController {
         return articleService.find(pathId)
     }
 
+    @ApiOperation("Update whole article with new information")
+    @PutMapping(path = ["/{id}"])
+    fun update(@ApiParam("The id of the article")
+               @PathVariable("id")
+               pathId: String?,
+               @ApiParam("The data of the article")
+               @RequestBody
+               articleDto: ArticleDto): ResponseEntity<Void> {
+        return articleService.update(pathId, articleDto)
+    }
+
     @ApiOperation("Update part of article")
     @PatchMapping(path = ["/{id}"])
     fun patch(@ApiParam("The id of the article")

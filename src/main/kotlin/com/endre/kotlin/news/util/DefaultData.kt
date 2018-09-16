@@ -22,7 +22,7 @@ class DefaultData {
     @PostConstruct
     fun initializeDefault() {
 
-        var articleDto = ArticleDto(text = "Some tex", country = "Norway", authorId = "123456")
+        var articleDto = ArticleDto(text = "Some text", country = "Norway", authorId = "123456")
 
         articleService.createArticle(articleDto)
     }

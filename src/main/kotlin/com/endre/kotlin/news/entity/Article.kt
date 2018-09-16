@@ -22,7 +22,7 @@ class Article(
         var authorId: String,
 
         @get:NotBlank @get:Size(max = 1024)
-        var text: String,
+        var text: String? = null,
 
         @get:NotNull
         var creationTime: ZonedDateTime,
