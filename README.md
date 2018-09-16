@@ -13,3 +13,4 @@ This is a News Application API written in Kotlin.
  - POST
  - PATCH /{id}
  - DELETE /{id}
+ - PUT
