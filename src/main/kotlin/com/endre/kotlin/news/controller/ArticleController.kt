@@ -2,13 +2,13 @@ package com.endre.kotlin.news.controller
 
 import com.endre.kotlin.news.entity.ArticleDto
 import com.endre.kotlin.news.service.ArticleService
-import io.swagger.annotations.Api
-import io.swagger.annotations.ApiOperation
-import io.swagger.annotations.ApiParam
+import io.swagger.annotations.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.util.UriComponentsBuilder
+
 
 /**
  * Created by Endre on 02.09.2018.
@@ -90,5 +90,20 @@ class ArticleController {
                 @PathVariable("id")
                 pathId: String?) : ResponseEntity<Any> {
         return articleService.delete(pathId)
+    }
+
+    @ApiOperation("Get single article by id")
+    @ApiResponses(ApiResponse(code = 301, message = "Deprecated URI, moved permanently."))
+    @GetMapping(path = ["/id/{id}"])
+    @Deprecated
+    fun deprecatedFindById(
+            @ApiParam("Id of an article")
+            @PathVariable("id")
+            pathId: String?) : ResponseEntity<ArticleDto> {
+        return ResponseEntity.status(301)
+                .location(UriComponentsBuilder.fromUriString("$contextPath/articles/$pathId")
+                        .build()
+                        .toUri())
+                .build()
     }
 }

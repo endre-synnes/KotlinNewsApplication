@@ -92,6 +92,25 @@ class ArticleControllerTest : NewsTestBase() {
 
     }
 
+    @Test
+    fun testDeprecatedGet() {
+
+        val id = create()
+
+        val dto = defaultDto()
+
+        given().accept(BASE_JSON)
+                .auth().preemptive().basic(username, password).`when`()
+                .pathParam("id", id)
+                .get("/id/{id}")
+                .then()
+                .statusCode(200)
+                .body("articleId", equalTo(id))
+                .body("authorId", equalTo(dto.authorId))
+                .body("text", equalTo(dto.text))
+                .body("country", equalTo(dto.country))
+    }
+
     private fun create() : String{
         return given().contentType(BASE_JSON)
                 .auth().preemptive().basic(username, password).`when`()

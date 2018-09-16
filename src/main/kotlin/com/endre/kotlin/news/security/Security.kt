@@ -15,9 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 class Security : WebSecurityConfigurerAdapter() {
 
-    @Autowired
-    lateinit var customLoginSuccessHandler: CustomAuthenticationSuccessHandler
-
     override fun configure(http: HttpSecurity): Unit {
         http
                 .authorizeRequests()
@@ -26,17 +23,6 @@ class Security : WebSecurityConfigurerAdapter() {
                 .and()
                 .cors().disable()
                 .csrf().disable()
-//                .antMatchers("/admin").hasRole("ADMIN")
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin().successHandler(customLoginSuccessHandler)
-//                .loginPage("/login")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll()
-
-        //http.exceptionHandling().accessDeniedPage("/403")
     }
 
     @Autowired
