@@ -40,7 +40,7 @@ class Security : WebSecurityConfigurerAdapter() {
     }
 
     @Autowired
-    fun configureGlobal(auth: AuthenticationManagerBuilder): Unit {
+    fun configureGlobal(auth: AuthenticationManagerBuilder) {
         auth
                 .inMemoryAuthentication()
                 .withUser("user").password("user").roles("USER")
